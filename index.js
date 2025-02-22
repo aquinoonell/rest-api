@@ -1,6 +1,6 @@
-const express = require ('express');
+const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require('cors');
+const cors = require("cors");
 
 const app = express();
 const port = 5100;
@@ -26,11 +26,10 @@ app.post("/api/subs", (req, res) => {
   return res.status(200).json({ success: true });
 });
 
-app.get('/api/subs',(req , res) => {
-    res.json({subscriptions : subs });
-
+app.get("/api/subs", (req, res) => {
+  res.json({ subscriptions: subs });
 });
 
 app.listen(port, () => {
-    console.log('server up on localhost:${port}');
+  console.log("server up on localhost:${port}");
 });
