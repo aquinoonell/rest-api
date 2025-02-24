@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 const app = express();
-const port = 5100;
+const port = 5200;
 
 app.use(cors());
 
@@ -16,9 +16,11 @@ app.post("/api/subs", (req, res) => {
   if (!email) {
     return res.status(400).json({ error: "Email is required. " });
   }
-
   if (subs.includes(email)) {
-    return res.status(400).json({ error: "Email already sub. " });
+    return res.status(400).json({
+      error: "Email is already Subscribed.",
+      message: "This email is alreayd in use.",
+    });
   }
 
   subs.push(email);
@@ -27,9 +29,17 @@ app.post("/api/subs", (req, res) => {
 });
 
 app.get("/api/subs", (req, res) => {
-  res.json({ subscriptions: subs });
+  const SubscriptionsResult = subs.map((email) => {
+    return {
+      email,
+      message: subs.includes(email)
+        ? "This email is already in use."
+        : "This email is avaliable for use.",
+    };
+  });
+  res.json({ subscriptions: SubscriptionsResult });
 });
 
 app.listen(port, () => {
-  console.log("server up on localhost:${port}");
+  console.log(`server up on localhost:${port}`);
 });
